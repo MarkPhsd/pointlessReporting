@@ -57,13 +57,18 @@
           </mat-tab>
 
           <mat-tab label="Grouping">
-            <psReporting-report-group-selector
-              (addFilter)="addGroup($event)">
-            </psReporting-report-group-selector>
+            <psReporting-report-group-selector></psReporting-report-group-selector>
           </mat-tab>
 
           <mat-tab label="Ordering">
+            <psReporting-sort-selector></psReporting-sort-selector>
+          </mat-tab>
 
+          <mat-tab label="Data">
+            {{getSQLStatement()}}
+            <br><br>
+
+            {{viewBuilder_ReportJSON | json}}
           </mat-tab>
 
         </mat-tab-group>
@@ -72,7 +77,7 @@
   </mat-card-content>
 </mat-card>
 
-{{viewBuilder_ReportJSON | json}}
+
 
 
 

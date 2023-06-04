@@ -20,11 +20,11 @@ export class MatSelectorComponent implements OnInit {
 
     ngOnInit(): void {
       if (this.defaultValue) {
-        let item : any;
-        item.name = this.defaultValue;
-        if (this.inputForm && !this.inputForm.controls[this.fieldName].value) {
-          this.inputForm.controls[this.fieldName].setValue(this.defaultValue)
-        }
+        // let item : any;
+        // item.name = this.defaultValue;
+        // if (this.inputForm && !this.inputForm.controls[this.fieldName].value) {
+        //   this.inputForm.controls[this.fieldName].setValue(this.defaultValue)
+        // }
       }
     }
 

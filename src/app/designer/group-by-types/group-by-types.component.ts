@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { viewBuilder_View_Field_Values, viewBuilder_ReportJSON, viewBuilder_View_Builder_GroupBy, aggregateFunctions, viewBuilder_AggregateFunction } from 'src/app/interfaces/reports';
+import { ReportDesignerService } from 'src/app/services/report-designer.service';
 
 @Component({
   selector: 'psReporting-group-by-types',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GroupByTypesComponent implements OnInit {
 
-  constructor() { }
+  @Input()  selected = {} as viewBuilder_AggregateFunction | undefined ;
+
+  fieldTypes = aggregateFunctions;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
+      const i = 0;
   }
 
 }

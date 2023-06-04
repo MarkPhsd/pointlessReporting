@@ -83,6 +83,10 @@ export class DesignerEditorComponent implements OnInit {
     this.reportDesignerService.updateReport(this.viewBuilder_ReportJSON)
   }
 
+  getSQLStatement() {
+    this.reportDesignerService.getSQLStatement([])
+  }
+
   save() {
 
   }

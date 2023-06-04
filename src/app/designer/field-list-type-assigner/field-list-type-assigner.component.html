@@ -17,11 +17,13 @@
           <mat-label>Field List</mat-label>
         </div>
 
+        <!-- [(ngModel)]  = "itemSelected"
+        (change)     = "changeSelection()" -->
+
         <mat-button-toggle-group
               style =      "width:200px"
               name         = "type"
-              [(ngModel)]  = "itemSelected"
-              (change)     = "changeSelection()"
+
               vertical >
           <mat-button-toggle
                 style="height:50px;"

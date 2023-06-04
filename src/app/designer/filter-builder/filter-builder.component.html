@@ -11,19 +11,17 @@
         <div class="flex-group">
           <div>
             <mat-button-toggle-group
-                  style =      "width:150px"
+                  style =      "width:200px"
                   name         = "type"
-                  [(ngModel)]  = "itemSelected"
-                  (change)     = "changeSelection()"
                   vertical >
               <mat-button-toggle
                     style="height:50px;"
                     *ngFor="let item of report.where"
                     type="button"
                     [value]="item"
-                    (click)="initForm(item)"
+                    (click)="editSelection(item)"
                     id="item">
-                <mat-icon>edit</mat-icon>{{item.name}}
+                <mat-icon>edit</mat-icon>{{item.name}} -- {{item?.andOrGroupNumber}}
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
@@ -31,15 +29,13 @@
             <mat-button-toggle-group
                   style =      "width:50px"
                   name         = "type"
-                  [(ngModel)]  = "itemSelected"
-                  (change)     = "changeSelection()"
                   vertical >
               <mat-button-toggle
                     style="height:50px;"
                     *ngFor="let item of report.where"
                     type="button"
                     [value]="item"
-                    (click)="initForm(item)"
+                    (click)="deleteItem(item)"
                     id="item">
                 <mat-icon>delete</mat-icon>
               </mat-button-toggle>
@@ -99,11 +95,16 @@
             And / Or - For next Group
           </pgReporting-mat-selector>
         </div>
-        <div>
-          <button mat-raised-button (click)="addWhereCondition()">Add</button>
+        <div class="flex-group">
+          <div style="margin:5px">
+            <button mat-raised-button (click)="addWhereCondition()">Add / Edit</button>
+          </div>
+          <div style="margin:5px">
+            <button mat-raised-button (click)="initForm()">Clear</button>
+          </div>
         </div>
       </div>
-      <div>
+      <div style="max-width:400px;heigh:800px;overflow-x:auto">
         <h4>Where Conditions</h4>
         <div>
           {{ getWhereConditions() }}

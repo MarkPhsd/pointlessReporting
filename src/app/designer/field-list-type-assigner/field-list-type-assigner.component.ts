@@ -88,7 +88,7 @@ export class FieldListTypeAssignerComponent implements OnInit {
     }
   }
 
-  removeItemById(array: viewBuilder_View_Field_Values[], id: number): viewBuilder_View_Field_Values[] {
+  removeItemById(array: viewBuilder_View_Field_Values[], id: string): viewBuilder_View_Field_Values[] {
     return array.filter(item => item.id !== id);
   }
 

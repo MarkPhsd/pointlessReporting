@@ -133,7 +133,7 @@ field type options determine if the field
 should be calculated or not.
 */
 export interface viewBuilder_View_Field_Values {
-	id: number;
+	id: string;
 	type: string;
 	name: string;
 	fieldTypeAggregate: string; //
@@ -144,7 +144,7 @@ can be sum, or no value.
 or other allowed values.
 */
 export interface viewBuilder_AggregateFunction {
-  id: number;
+  id: string;
   name: string;
   description: string;
 }
@@ -177,11 +177,12 @@ export const whereTypeList = [
   {name: '<'},
   {name: '=>'},
   {name: '<='},
+  {name: '<>'},
+  {name: 'like'},
 ]
 
 export interface viewBuilder_View_Builder_GroupBy {
-	id: number;
-	viewBuilder_ReportID: number;
+	id: string;
 	name: string;
 }
 

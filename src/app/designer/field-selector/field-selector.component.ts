@@ -197,7 +197,7 @@ export class FieldSelectorComponent implements OnInit {
    let item = {} as viewBuilder_View_Field_Values
   //  console.log(movedItems)
    if (movedItems){
-    item.id = +movedItems[0].value;
+    item.id = movedItems[0].value;
     item.name = movedItems[0].text;
     item.fieldTypeAggregate  = movedItems[0].fieldTypeAggregate;
     item.type = movedItems[0].type;

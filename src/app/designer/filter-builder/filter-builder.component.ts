@@ -32,6 +32,11 @@ export class FilterBuilderComponent implements OnInit {
     private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
+
+    this._report = this.reportDesignerService.report$.subscribe(data => {
+      this.report = data;
+    })
+
     this._fieldList = this.reportDesignerService.fieldsList$.subscribe(data =>{
       this.allFields = data;
     })
@@ -43,9 +48,15 @@ export class FilterBuilderComponent implements OnInit {
     this.whereForm?.patchValue(item)
   }
 
+  deleteItem(item: viewBuilder_Where_Selector) {
+    const list = this.report.where
+    this.report.where =  list.filter( data => { return data.id != item.id } )
+    this.reportDesignerService.updateReport(this.report)
+  }
+
   initWhereForm() {
     this.whereForm = this.fb.group({
-      id: [UUID.UUID()],
+      id: [ UUID.UUID()],
       name:[],
       whereType: [],
       whereCondition: [],
@@ -62,20 +73,29 @@ export class FilterBuilderComponent implements OnInit {
   }
 
   addWhereCondition() {
-    console.log('form value', this.whereForm?.value)
+
     if (!this.whereForm) { return }
     const item = this.whereForm.value as viewBuilder_Where_Selector;
     if (!this.report.where) {
       this.report.where = []
     }
+
+    //find out if item is already in the list, then it's an edit.
+    const itemCheck = this.report.where.filter(check => {
+      return check.id = item.id;
+    })
+    if (itemCheck[0].id == item.id) {
+      const list = this.report.where
+      this.report.where =  list.filter( data => { return data.id != item.id } )
+    }
     this.report.where.push(item)
     this.reportDesignerService.updateReport(this.report)
+    this.initWhereForm()
     //add where condition to JSON - do push. //also remove the same condition if the field exists.
   }
 
   getWhereConditions() {
     const item =  this.reportDesignerService.getWhereString(this.report.where, [])
-
     // console.log(item)
     return item
   }
