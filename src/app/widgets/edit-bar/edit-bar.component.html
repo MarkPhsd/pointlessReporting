@@ -1,0 +1,6 @@
+<div class="grid-items edit-bar">
+  <button *ngIf="!hideAdd" color="primary" mat-raised-button (click)="addEvent()" ><mat-icon>add</mat-icon>Add</button>
+  <button *ngIf="!hideSave" color="primary"  mat-raised-button (click)="saveEvent()" ><mat-icon>save</mat-icon>Save</button>
+  <button *ngIf="!hideCopy" color="primary" mat-raised-button (click)="copyEvent()"><mat-icon >copy</mat-icon>Copy</button>
+  <button mat-raised-button color='warn' (click)="deleteEvent()"><mat-icon>delete</mat-icon>Delete</button>
+</div>

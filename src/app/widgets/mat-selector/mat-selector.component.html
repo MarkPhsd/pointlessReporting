@@ -1,0 +1,34 @@
+<ng-container [ngTemplateOutlet]="isFormView"></ng-container>
+
+<ng-template #formView>
+  <!-- {{inputForm.value | json}} -->
+  <div [formGroup]="inputForm"
+        *ngIf="inputForm"
+        class="grid-container">
+
+      <mat-form-field  appearance="outline">
+          <mat-label> <ng-content></ng-content> </mat-label>
+          <mat-select
+                type="text"
+                [formControlName] ="fieldName"
+                (selectionChange)="setItem($event.value)" >
+            <mat-option value="" *ngIf="!hideClear">
+
+            </mat-option>
+
+            <span *ngIf="list">
+              <mat-option
+                    *ngFor="let item of list"
+                    [value]="item.name">
+                {{item.name}}
+              </mat-option>
+            </span>
+          </mat-select>
+      </mat-form-field>
+
+  </div>
+</ng-template>
+
+ <ng-template #loading>
+   ...loading <ng-content></ng-content>
+ </ng-template>

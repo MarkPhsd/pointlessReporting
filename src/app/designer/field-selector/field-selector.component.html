@@ -1,0 +1,97 @@
+<ng-template #loading><mat-spinner diameter="50"></mat-spinner></ng-template>
+<mat-label>After you select fields, ensure your grouping is correct.
+           Adding and changing fields here may affect grouping.</mat-label>
+
+
+<div class="grid-container" *ngIf="allFields">
+  <div>
+    <!-- <ng-container [ngTemplateOutlet]="save"></ng-container> -->
+    <ng-container [ngTemplateOutlet]="reset"></ng-container>
+  </div>
+
+  <div *ngIf="listBoxForm">
+
+    <div class="grid-dual-list" [formGroup]="listBoxForm">
+      <div class="dualListLeft">
+        <div class="drag-drop-container">
+            <mat-form-field appearance="outline">
+            <mat-label>{{availableText}}</mat-label>
+            <input matInput
+                  class="form-control vertical-spacing-5"
+                  placeholder="{{availableFilterPlaceholder}}"
+                  formControlName="availableSearchInput"
+                  #availableSearchInput />
+          </mat-form-field>
+          <div cdkDropList #availables="cdkDropList"
+              [cdkDropListData] ="availableFields"
+              [cdkDropListConnectedTo] ="[selects]"
+              (cdkDropListDropped)="drop($event)"
+              class="drag-drop-list  selection-list">
+              <div nbButton outline status='primary'
+                  class="drag-drop-box"
+                  *ngFor="let item of availableFields | arrayFilter:['text', availableSearchInput.value]" cdkDrag>
+                  {{ item?.text }}
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dualListRight" *ngIf="selectedFields">
+        <div class="drag-drop-container">
+            <mat-form-field appearance="outline">
+              <mat-label>{{selectedText}}</mat-label>
+              <input matInput
+                    type="text"
+                    class="form-control"
+                    placeholder="{{selectedFilterPlaceholder}}"
+                    formControlName="selectedSearchInput"
+                    #selectedSearchInput />
+            </mat-form-field>
+
+            <div cdkDropList #selects="cdkDropList"
+                [cdkDropListData] ="selectedFields"
+                [cdkDropListConnectedTo]="[availables]"
+                (cdkDropListDropped)="drop($event)"
+                class="drag-drop-list selection-list">
+              <div nbButton outline status='primary'
+                  class="drag-drop-box"
+                  *ngFor="let item of selectedFields | arrayFilter:['text', selectedSearchInput.value]"
+                  cdkDrag>
+                  {{ item?.text }}
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #reset>
+  <div >
+    <button mat-raised-button
+    class="button-150"
+    (click)='resetFieldSelection()'>
+    <mat-icon>setting</mat-icon>Reset Groups</button>
+  </div>
+</ng-template>
+
+<ng-template #save>
+  <div >
+    <button mat-raised-button
+    class="button-150"
+    (click)='saveFieldSelection()'>
+    <mat-icon>save</mat-icon>Save</button>
+  </div>
+</ng-template>
+
+<ng-template #saving>
+  <span *ngIf="processRetrieving">
+    ...saving.
+  </span>
+</ng-template>
+
+<ng-template #retrieving>
+  <span *ngIf="processRetrieving">
+    ...retrieving.
+  </span>
+</ng-template>

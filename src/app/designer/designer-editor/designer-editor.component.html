@@ -1,0 +1,78 @@
+<mat-card>
+  <mat-card-title>
+
+    <pgReporting-edit-bar
+      (save)="save()"
+      (delete)="delete()"
+      (copy)="copy()">
+    </pgReporting-edit-bar>
+
+  </mat-card-title>
+
+  <mat-card-content>
+    <div *ngIf="inputForm"
+        [formGroup]="inputForm">
+
+        <mat-tab-group style="height:700px">
+          <mat-tab label="Description">
+            <div class="grid-items">
+              <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Name</mat-label>
+                    <input matInput
+                          type="text"
+                          [formControlName]="'name'">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline" style="width:400px;height:200px">
+                  <mat-label>Description</mat-label>
+                    <input matInput
+                          type="text"
+                          [formControlName]="'description'">
+                </mat-form-field>
+              </div>
+            </div>
+
+          </mat-tab>
+
+          <mat-tab label="Field Selector">
+            <psReporting-field-selector
+                  [allFields]="viewBuilder_View_Field_Values"
+                  (saveSelected)="saveSelectedFields($event)"
+            ></psReporting-field-selector>
+          </mat-tab>
+
+          <mat-tab label="Field Value Aggregation">
+            <pgReporting-field-list-type-assigner
+                  (saveSelected)="saveSelectedFields($event)"
+            ></pgReporting-field-list-type-assigner>
+          </mat-tab>
+
+          <mat-tab label="Filter">
+            <pgReporting-filter-builder
+                [viewBuilder_View_Field_Values]="viewBuilder_View_Field_Values"
+                (addFilter)="addFilter($event)">
+            </pgReporting-filter-builder>
+          </mat-tab>
+
+          <mat-tab label="Grouping">
+            <psReporting-report-group-selector
+              (addFilter)="addGroup($event)">
+            </psReporting-report-group-selector>
+          </mat-tab>
+
+          <mat-tab label="Ordering">
+
+          </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+
+{{viewBuilder_ReportJSON | json}}
+
+
+

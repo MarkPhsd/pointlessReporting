@@ -1,0 +1,21 @@
+
+<pgReporting-edit-bar
+    [hideSave]="true"
+    (add)="addReport()"
+    (delete)="deleteReport()"
+    (copy)="copyReport()">
+</pgReporting-edit-bar>
+<button mat-raised-button (click)="loadExampleReport()">Load Test</button>
+<ag-grid-angular
+    #agGrid
+    id                   ="myGrid"
+    style                ="height: 500px; width: 100%"
+    class                ="'ag-theme-material'"
+    [rowData]            ="data"
+    [defaultColDef]      ="defaultColDef"
+    [columnDefs]         ="columnDefs"
+    [gridOptions]        ="gridOptions"
+    [groupIncludeTotalFooter]="true"
+    (gridReady)         ="onGridReady($event)"
+   >
+</ag-grid-angular>
