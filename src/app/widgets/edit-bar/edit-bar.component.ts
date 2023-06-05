@@ -10,7 +10,7 @@ export class EditBarComponent implements OnInit {
   @Input() hideSave: boolean = false;
   @Input() hideCopy: boolean = false;
   @Input() hideAdd: boolean = false;
-
+  @Input() hideDelete: boolean = false;
   @Output() delete = new EventEmitter<boolean>();
   @Output() save = new EventEmitter<boolean>();
   @Output() copy = new EventEmitter<boolean>();

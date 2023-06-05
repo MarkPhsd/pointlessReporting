@@ -1,21 +1,38 @@
 
-<pgReporting-edit-bar
-    [hideSave]="true"
-    (add)="addReport()"
-    (delete)="deleteReport()"
-    (copy)="copyReport()">
-</pgReporting-edit-bar>
-<button mat-raised-button (click)="loadExampleReport()">Load Test</button>
-<ag-grid-angular
+<div class="flex-group">
+  <div>
+    <pgReporting-edit-bar
+      [hideSave]="true"
+      [hideDelete]="true"
+      [hideCopy]="true"
+      (add)="addReport()"
+      (delete)="deleteReport()"
+      (copy)="copyReport()">
+    </pgReporting-edit-bar>
+  </div>
+  <div>
+    <button mat-raised-button (click)="loadExampleReport()">Load Test</button>
+  </div>
+</div>
+
+<ng-container [ngTemplateOutlet]="isGridView">
+
+</ng-container>
+
+<ng-template #gridView>
+  <ag-grid-angular
     #agGrid
     id                   ="myGrid"
     style                ="height: 500px; width: 100%"
     class                ="'ag-theme-material'"
     [rowData]            ="data"
     [defaultColDef]      ="defaultColDef"
+    [frameworkComponents]="frameworkComponents"
     [columnDefs]         ="columnDefs"
     [gridOptions]        ="gridOptions"
-    [groupIncludeTotalFooter]="true"
-    (gridReady)         ="onGridReady($event)"
-   >
-</ag-grid-angular>
+    (onSelectionChange)  ='onSelectionChange($event)'
+    (gridReady)          ="onGridReady($event)">
+  </ag-grid-angular>
+</ng-template>
+
+<!-- {{data | json}} -->

@@ -137,6 +137,11 @@
     }
   }
 
+  .general-padding {
+    margin: 5px;
+    padding: 10px;
+  }
+
   .edit-bar {
     width: 500px;
   }
@@ -176,9 +181,14 @@
   margin: 5px;
   gap: 10px;
 }
+
 .flex-group-column{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   margin: 5px;
 }
+
+/* In the component.css or app.css add Icon Color styles */
+.material-icons.color_green { color: #00FF00; }
+.material-icons.color_white { color: #FFFFFF; }

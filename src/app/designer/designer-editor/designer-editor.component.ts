@@ -33,7 +33,6 @@ export class DesignerEditorComponent implements OnInit {
     this._report = this.reportDesignerService.report$.subscribe(data => {
       this.viewBuilder_ReportJSON = data;
       this.initForm(this.viewBuilder_ReportJSON)
-
     })
 
 
@@ -51,11 +50,11 @@ export class DesignerEditorComponent implements OnInit {
         where: [],
         groups: [],
         orderBy: [],
+        dashBoard:[],
       })
       this.inputForm.patchValue(item)
     }
   }
-
 
   ngOnDestroy() {
     if (this._report) {
@@ -84,7 +83,7 @@ export class DesignerEditorComponent implements OnInit {
   }
 
   getSQLStatement() {
-    this.reportDesignerService.getSQLStatement([])
+   return this.reportDesignerService.getSQLStatement([])
   }
 
   save() {

@@ -2,10 +2,10 @@
 
 
 <h4>Group by will apply when you have assigned the fields.</h4>
-<mat-label>If you are aggregating fields, then select each one of the
+<mat-label  class="general-padding">If you are aggregating fields, then select each one of the
   fields on the list provided. You must group by each field that is not an aggregate.
-</mat-label>
-<mat-label>
+</mat-label  >
+<mat-label class="general-padding">
   Group by selector should be a list of all the fields
   that are not aggregete fields.
 </mat-label>
@@ -14,7 +14,11 @@
   <div>
     <mat-label>Group By List</mat-label>
   </div>
-  <button mat-raised-button (click)="addAll()">Add All</button>
+  <div class="general-padding">
+    <button  mat-raised-button (click)="addAll()">
+      <mat-icon>add</mat-icon>Add All
+    </button>
+  </div>
   <div class="flex-group">
 
     <div>

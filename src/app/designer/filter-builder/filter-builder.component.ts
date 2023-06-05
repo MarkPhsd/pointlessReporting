@@ -19,8 +19,8 @@ export class FilterBuilderComponent implements OnInit {
   report = {} as viewBuilder_ReportJSON
 
   andOrList = [
-    {id: 1, name: 'and'},
-    {id: 2, name: 'or'}
+    {id: 1, name: 'AND'},
+    {id: 2, name: 'OR'}
   ]
 
   whereSelector = whereTypeList;

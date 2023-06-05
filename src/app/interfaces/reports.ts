@@ -117,7 +117,7 @@ export interface viewBuilder_ViewList {
 }
 
 export interface viewBuilder_ReportJSON {
-	id: number;
+	id: string;
 	name: string;
 	viewBuilder_GroupsID: number;
 	viewBuilder_viewListID: number;
@@ -126,6 +126,7 @@ export interface viewBuilder_ReportJSON {
 	where:  viewBuilder_Where_Selector[];
 	groups: viewBuilder_View_Builder_GroupBy[];
 	orderBy: viewBuilder_View_Field_Values[];
+  dashBoard: string;
 }
 
 /*
@@ -137,6 +138,7 @@ export interface viewBuilder_View_Field_Values {
 	type: string;
 	name: string;
 	fieldTypeAggregate: string; //
+  order: number;
 }
 
 /*calcluated

@@ -68,94 +68,115 @@ export class FieldSelectorComponent implements OnInit {
   this.selectedFields = [] as IListBoxItem[];
  }
 
- assignedStatic   : any;
- allAssigned      : any;
+  assignedStatic   : any;
+  allAssigned      : any;
 
- constructor(
-    private reportDesignerService: ReportDesignerService,
-    public fb: UntypedFormBuilder) {
-   this.listBoxForm = this.fb.group({
-     availableSearchInput: [''],
-     selectedSearchInput: [''],
-   });
- }
+  constructor(
+      private reportDesignerService: ReportDesignerService,
+      public fb: UntypedFormBuilder) {
+    this.listBoxForm = this.fb.group({
+      availableSearchInput: [''],
+      selectedSearchInput: [''],
+    });
+  }
 
- ngOnInit(): void {
-  this._fieldList = this.reportDesignerService.fieldsList$.subscribe(data =>{
-    this.allFields = data;
-  })
-
-  this._report = this.reportDesignerService.report$.pipe(
-    switchMap(data => {
-      this.report = data;
-      return this.reportDesignerService.fieldsList$
+  ngOnInit(): void {
+    this._fieldList = this.reportDesignerService.fieldsList$.subscribe(data =>{
+      this.allFields = data;
     })
-  ).subscribe(data =>{
-    this.allFields = data;
+
+    this._report = this.reportDesignerService.report$.pipe(
+      switchMap(data => {
+        this.report = data;
+        return this.reportDesignerService.fieldsList$
+      })
+    ).subscribe(data =>{
+      this.allFields = data;
+      this.assignSelectedAndAvalible(this.report.fields)
+    })
+  }
+
+  resetFieldSelection() {
+    this.report.fields = [];
+    this.selectedFields = [];
+    this.saveFieldSelection()
     this.assignSelectedAndAvalible(this.report.fields)
-  })
+  }
 
- }
+  assignSelectedAndAvalible(selected: viewBuilder_View_Field_Values[]) {
+    //get Avalible Fields
 
- resetFieldSelection() {
-   this.report.fields = [];
-   this.selectedFields = [];
+    const allFields = this.allFields as viewBuilder_View_Field_Values[]
+    if (selected && selected.length > 0) {
+      const fields = selected
+      //for each of these, we can remove matching item from the avalble list.  //avalible
+      //Also we assign the in useGroupTaxes to the assigned list. //selected
+      this.selectedFields = [];
 
-   this.saveFieldSelection()
-   this.assignSelectedAndAvalible(this.report.fields)
+      fields.forEach(item => {
+        if (item && !item.id) {
 
- }
+        } else {
+          this.selectedFields.push({groupID: 0, value:
+                                    item?.id.toString(),
+                                    text: item.name,
+                                    fieldTypeAggregate: item.fieldTypeAggregate,
+                                    type: item.type})
+        }
+      })
+      this.removeSelectedFromAvailable(allFields, fields)
+      return
+    }
+    if (selected && selected.length == 0) { }
+    //!!!
+    this.removeSelectedFromAvailable(allFields, [])
+  }
 
- assignSelectedAndAvalible(selected: viewBuilder_View_Field_Values[]) {
-   //get Avalible Fields
-
-   const allFields = this.allFields as viewBuilder_View_Field_Values[]
-   if (selected && selected.length > 0) {
-     const fields = selected
-     //for each of these, we can remove matching item from the avalble list.  //avalible
-     //Also we assign the in useGroupTaxes to the assigned list. //selected
-     this.selectedFields = []
-    //  console.log('assignSelectedAndAvalible', fields, allFields)
-     fields.forEach(item => {
-       if (item && !item.id) {
-        console.log('id is undefiend', item?.id, item?.name)
-       } else {
-         this.selectedFields.push({groupID: 0, value: item?.id.toString(), text: item.name, fieldTypeAggregate: item.fieldTypeAggregate, type: item.type})
-       }
-     })
-     this.removeSelectedFromAvailable(allFields, fields)
-     return
-   }
-   if (selected && selected.length == 0) { }
-   //!!!
-   this.removeSelectedFromAvailable(allFields, [])
- }
-
- removeSelectedFromAvailable( xallFields  : viewBuilder_View_Field_Values[],
+  removeSelectedFromAvailable( xallFields  : viewBuilder_View_Field_Values[],
                               xallAssigned: viewBuilder_View_Field_Values[]): IListBoxItem[] {
 
-   let allFields     = xallFields.map( item => ({ groupID: 0,value: item.id.toString(), text: item.name,fieldTypeAggregate: item.fieldTypeAggregate,  type: item.type }));
+    let allFields     = xallFields.map( item => ({ groupID: 0,value: item.id.toString(),
+                                                  text: item.name,
+                                                  fieldTypeAggregate: item.fieldTypeAggregate,
+                                                  type: item.type }));
 
-   if (xallAssigned  != undefined) {
-     let allAssigned = xallAssigned.map( item =>  ({ groupID: 0, value: item.toString(), text: item.name, fieldTypeAggregate: item.fieldTypeAggregate, type: item.type }));
-     allAssigned.forEach(item => {
-       if (item && !item.text) {
-        // console.log('item undfined remove selected', item)
-       } else {
-         const value = allFields.find( x => x.text.toLowerCase() === item.text.toLowerCase() )
-         if (value) {
-           allFields = allFields.filter(item => item !== value)
-         }
-       }
-     })
-     if (allAssigned != undefined) {
-       allFields =  allFields.filter(item => !allAssigned.includes(item));
-     }
-   }
+    if (xallAssigned  != undefined) {
+      let allAssigned = xallAssigned.map( item => ({ groupID: 0, value: item.toString(),
+                                                    text: item.name,
+                                                    fieldTypeAggregate: item.fieldTypeAggregate,
+                                                    type: item.type }));
+      allAssigned.forEach(item => {
+        if (item && !item.text) {
+        } else {
+          const value = allFields.find( x => x.text.toLowerCase() === item.text.toLowerCase() )
+          if (value) {
+            allFields = allFields.filter(item => item !== value)
+          }
+        }
+      })
+      if (allAssigned != undefined) {
+        allFields =  allFields.filter(item => !allAssigned.includes(item));
+      }
+    }
 
-   this.refreshUnselected(allFields)
-   return allFields;
 
+    //  this.refreshUnselected(allFields)
+    this.displayAllFields()
+    return allFields;
+
+  }
+
+  displayAllFields(){
+    let fields = [] as IListBoxItem[];
+    this.allFields.forEach(data => {
+      let field = {} as IListBoxItem
+      field.fieldTypeAggregate = data.fieldTypeAggregate;
+      field.value = data.id;
+      field.text = data.name;
+      field.type = data.type;
+      fields.push(field)
+  })
+  this.availableFields = fields;
  }
 
  refreshUnselected(allFields: IListBoxItem[]) {
@@ -171,9 +192,22 @@ export class FieldSelectorComponent implements OnInit {
  }
 
  convertToIlistBoxItem(listSource: any[]): IListBoxItem[] {
-   var result = listSource.map(item => ({ groupID: 0,value: item.id.toString(), text: item.name, fieldTypeAggregate: item.fieldTypeAggregate,  type: item.type }));
+   var result = listSource.map(item => ({ groupID: 0,value:
+                                          item.id.toString(),
+                                          text: item.name,
+                                          fieldTypeAggregate: item.fieldTypeAggregate,
+                                          type: item.type }));
    return result
  }
+ convertListBoxToField(item: IListBoxItem): viewBuilder_View_Field_Values {
+  const newItem  = {} as  viewBuilder_View_Field_Values;
+  newItem.fieldTypeAggregate = item.fieldTypeAggregate;
+  newItem.id = item.value;
+  newItem.name = item.text
+  newItem.type = item.type;
+  return newItem;
+  // return result
+}
 
  setItemType(event: unknown) {
    // this.taxRate = event;
@@ -182,7 +216,14 @@ export class FieldSelectorComponent implements OnInit {
    // this.refreshTaxAssignment(this.taxRate.id)
  }
 
+ addItem(item:IListBoxItem) {
+  let newItem = this.convertListBoxToField(item);
+  this.report.fields.push(newItem);
+  this.reportDesignerService.updateReport(this.report)
+ }
+
  drop(event: CdkDragDrop<IListBoxItem[]>) {
+
    if (event.previousContainer === event.container) {
      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
    } else {
@@ -195,21 +236,25 @@ export class FieldSelectorComponent implements OnInit {
 
    const movedItems = event.container.data.filter((v, i) => i === event.currentIndex)
    let item = {} as viewBuilder_View_Field_Values
-  //  console.log(movedItems)
+
    if (movedItems){
     item.id = movedItems[0].value;
     item.name = movedItems[0].text;
     item.fieldTypeAggregate  = movedItems[0].fieldTypeAggregate;
     item.type = movedItems[0].type;
     this.report.fields.push(item)
-    // console.log(this.report.fields)
+    this.selectedFields.push(movedItems[0])
    }
+   let i = 1
+   this.report.fields.forEach(data => {
+    data.order = i;
+    i += 1
+   })
 
    const names = this.report.fields.map(o => o.name)
    const filtered = this.report.fields.filter(({name}, index) => !names.includes(name, index + 1))
-
    this.report.fields = filtered;
-   console.log(this.report.fields)
+
    this.saveFieldSelection()
 
  }

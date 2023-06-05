@@ -45,7 +45,7 @@ export class ReportDesignerService {
     const items = [] as viewBuilder_View_Builder_GroupBy[];
     let item = {} as viewBuilder_View_Builder_GroupBy;
     item.id   = UUID.UUID();
-    item.name = 'name';
+    item.name = 'productName';
     items.push(item)
     return items ;
   }
@@ -62,7 +62,7 @@ export class ReportDesignerService {
 
     item = {} as viewBuilder_View_Field_Values;
     item.fieldTypeAggregate = '';
-    item.name = 'name';
+    item.name = 'productName';
     item.type = 'text';
     item.id   = UUID.UUID();
 
@@ -129,7 +129,7 @@ export class ReportDesignerService {
 
     item = {} as viewBuilder_View_Field_Values;
     item.fieldTypeAggregate = '';
-    item.name = 'name';
+    item.name = 'productName';
     item.type = 'text';
     item.id   = UUID.UUID();
 
@@ -200,7 +200,7 @@ export class ReportDesignerService {
     let sql
     const viewList = viewBuilderList
     if (!this.report || !this.report.viewBuilder_viewListID) {
-      console.log('no view selected', this.report)
+      // console.log('no view selected', this.report)
       return;
     }
 
@@ -212,7 +212,7 @@ export class ReportDesignerService {
     const groupBy = this.getGroupBy();
     const orderBy = this.getOrderBy()
     sql = `${this.getSelect()} FROM ${view[0].viewNameValue} ${where} ${groupBy} ${orderBy}`
-    console.log('sql', sql)
+    // console.log('sql', sql)
     return sql
   }
 
@@ -295,14 +295,28 @@ export class ReportDesignerService {
 
   getFieldList(list: any[]) {
     let item : string = ''
+
     list.forEach(data => {
-      item = `${item} ${data.name},`
+
+      const field = data as viewBuilder_View_Field_Values;
+      const agg = field?.fieldTypeAggregate
+
+      if (agg) {
+        item = `${item} ${agg}(${data.name}),`
+      } else {
+        item = `${item} ${data.name},`
+      }
+
     })
+
     if (item && item != '') {
       item  = item.slice(0,item.length-1)
     }
+
     return item;
   }
+
+
 
 }
 

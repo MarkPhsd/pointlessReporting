@@ -19,7 +19,10 @@ export class FieldListTypeAssignerComponent implements OnInit {
   })
 
   _report = this.reportDesignerService.report$.subscribe(data => {
-    this.fields = data.fields;
+    if (data && data.fields) {
+      this.fields = data.fields.sort(({order:a}, {order:b}) => b-a);;
+    }
+
   })
 
   aggregates = aggregateFunctions;
@@ -59,7 +62,6 @@ export class FieldListTypeAssignerComponent implements OnInit {
 
   initForm(item: viewBuilder_View_Field_Values) {
 
-    console.log('item initForm', item)
     if (!item) { return }
     this.formFieldAggregate = this.fb.group({
       id: [],
@@ -75,7 +77,6 @@ export class FieldListTypeAssignerComponent implements OnInit {
 
     this.aggregateFunction  = aggregate[0]
     item.fieldTypeAggregate = item.fieldTypeAggregate.toUpperCase()
-    console.log('item', item)
     this.formFieldAggregate.patchValue(item)
 
   }

@@ -16,6 +16,12 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "paths": {
+      "pointlessReportingLibrary": [
+        "dist/pointless-reporting-library",
+        "dist/pointless-reporting-library"
+      ]
+    },
     "target": "es2020",
     "module": "es2020",
     "lib": [

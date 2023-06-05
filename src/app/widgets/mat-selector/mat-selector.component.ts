@@ -32,7 +32,7 @@ export class MatSelectorComponent implements OnInit {
       if (this.inputForm) {
         return this.formView
       }
-      return null;
+      return undefined;
     }
 
     setItem(item:any) {

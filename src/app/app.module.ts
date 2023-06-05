@@ -25,6 +25,7 @@ import { FilterBuilderComponent } from './designer/filter-builder/filter-builder
 import { FieldValueSelectorComponent } from './designer/field-value-selector/field-value-selector.component';
 import { FieldListTypeAssignerComponent } from './designer/field-list-type-assigner/field-list-type-assigner.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonRendererComponent } from './widgets/button-renderer/button-renderer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ArrayFilterPipe,
     FilterBuilderComponent,
     FieldValueSelectorComponent,
-    FieldListTypeAssignerComponent
+    FieldListTypeAssignerComponent,
+    ButtonRendererComponent
   ],
   imports: [
     BrowserModule,
@@ -60,4 +62,4 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class PointlessReportingModule { }

@@ -1,1 +1,24 @@
-<p>report-data works!</p>
+
+<div class="grid-item">
+  <button mat-button
+          class="assign-button"
+          (click)="onExportToCsv()">
+    <mat-icon>download</mat-icon>
+    Download
+  </button>
+</div>
+
+<ag-grid-angular
+    #agGrid
+    id                   ="myGrid"
+    style                ="height: 500px; width: 100%"
+    class                ="'ag-theme-material'"
+    [rowData]            ="data"
+    [defaultColDef]      ="defaultColDef"
+    [columnDefs]         ="columnDefs"
+    [gridOptions]        ="gridOptions"
+    [groupIncludeTotalFooter]="true"
+    (gridReady)         ="onGridReady($event)"
+   >
+</ag-grid-angular>
+

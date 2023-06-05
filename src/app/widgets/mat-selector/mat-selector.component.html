@@ -1,7 +1,8 @@
-<ng-container [ngTemplateOutlet]="isFormView"></ng-container>
+<div  *ngIf="isFormView != undefined" >
+  <ng-container [ngTemplateOutlet]="isFormView"></ng-container>
+</div>
 
 <ng-template #formView>
-  <!-- {{inputForm.value | json}} -->
   <div [formGroup]="inputForm"
         *ngIf="inputForm"
         class="grid-container">
